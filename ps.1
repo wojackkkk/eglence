@@ -1,12 +1,15 @@
-# PowerShell scripti (DownloadAndSetWallpaper.ps1)
+# PowerShell scripti (SetDesktopWallpaper.ps1)
 
-# Belirtilen URL'den resmi indir ve masaüstüne kaydet
+# Resim URL'si
 $url = "https://scontent.fist20-1.fna.fbcdn.net/v/t1.6435-9/119200181_3622178757869098_7423071217062752348_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=_nEEOkoIv94Q7kNvgHisKk_&_nc_ht=scontent.fist20-1.fna&oh=00_AYBKPAwgOkYQAnDpp75YNcdcd2k44M_SOZX3_nnw3KvhIg&oe=669D663A"
-$outputPath = "$env:USERPROFILE\Desktop\background.jpg"
+
+# Masaüstüne kaydedilecek dosya yolunu belirle
+$outputPath = "$env:USERPROFILE\Desktop\wallpaper.jpg"
+
+# Resmi indir
 Invoke-WebRequest -Uri $url -OutFile $outputPath
 
 # Masaüstü arka planını ayarla
-$code = @"
 Add-Type -TypeDefinition @"
 using System;
 using System.Runtime.InteropServices;
@@ -18,5 +21,7 @@ public class Wallpaper {
     }
 }
 "@
-Add-Type -TypeDefinition $code
 [Wallpaper]::Set("$outputPath")
+
+# Başarı mesajı
+Write-Output "Masaüstü arka planı başarıyla güncellendi."
